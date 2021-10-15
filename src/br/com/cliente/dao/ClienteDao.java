@@ -6,6 +6,7 @@ import br.com.cliente.utils.IDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ public class ClienteDao implements IDao{
     @Override
     public void insert(Object o) {
         // Convertendo o meu parametro em objeto cliente (c)
-        Cliente c = (Cliente) o; 
-        
+        Cliente c = (Cliente) o;
+                
         // Criando uma variavel com nome sql e estou aplicando uma instrução sql
         // Comando para inserir no banco de dados, pegando os dados do formulario
         String sql = "insert into cliente(nome, endereco, municipio, cep, tel, "
@@ -139,6 +140,39 @@ public class ClienteDao implements IDao{
 
     @Override
     public List select() {
+        //Criando um objeto chamado list do tipo lista (ArrayList)
+        List list = new ArrayList();
+        
+        String sql = "select * from cliente";
+        
+        PreparedStatement ps;
+        
+        try {
+            ps = Conector.getConexao().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) { 
+                Cliente c = new Cliente();
+                
+                c.setNome(rs.getString("nome"));
+                c.setEndereco(rs.getString("endereco"));
+                c.setMunicipio(rs.getString("municipio"));
+                c.setCep(rs.getString("cep"));
+                c.setTelefone(rs.getString("tel"));
+                c.setCelular(rs.getString("cel"));
+                c.setCpf(rs.getString("cpf"));
+                c.setCnpj(rs.getString("cnpj"));
+                c.setGenero(rs.getString("genero"));
+                
+                list.add(c);
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return list;
         
     }
 
