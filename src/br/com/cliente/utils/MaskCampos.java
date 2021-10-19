@@ -3,6 +3,7 @@ package br.com.cliente.utils;
 
 import java.text.ParseException;
 import javax.swing.JFormattedTextField;
+import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
 /**
@@ -16,11 +17,18 @@ public class MaskCampos {
             
         MaskFormatter mask = null; // Criamos o objeto adicionando valor null
         mask = new MaskFormatter("(##)####-####"); // Instaciamos o objeto passando a mascara como parametros
-        mask.setOverwriteMode(true); // Informando que não vai aceitar caractere especiais
+        mask.setOverwriteMode(false); // Informando que não vai aceitar caractere especiais
         mask.setValidCharacters("0123456789"); // Informando para ele aceitar apenas numeros
-        mask.setPlaceholderCharacter('_'); //Informando para ele mascara principal seria o underline
+        //mask.setPlaceholderCharacter('_'); //Informando para ele mascara principal seria o underline
         mask.install(textfield);       //Instalado o objeto no componente
        return mask; // Retornando o objeto
+    }
+    
+    public void maskGeral(JFormattedTextField textfield, String Mascara) throws ParseException{
+    
+                textfield.setFormatterFactory(
+                    new DefaultFormatterFactory(
+                            new MaskFormatter(Mascara)));
     }
     
     public MaskFormatter maskCelular(JFormattedTextField textfield) 
@@ -28,9 +36,9 @@ public class MaskCampos {
             
         MaskFormatter mask = null;
         mask = new MaskFormatter("(##)#####-####");
-        mask.setOverwriteMode(true);
+        mask.setOverwriteMode(false);
         mask.setValidCharacters("0123456789");
-        mask.setPlaceholderCharacter('_');
+       // mask.setPlaceholderCharacter('_');
         mask.install(textfield);       
        return mask; 
     }
@@ -40,9 +48,10 @@ public class MaskCampos {
             
         MaskFormatter mask = null;
         mask = new MaskFormatter("###.###.###-##");
-        mask.setOverwriteMode(true);
+        mask.setOverwriteMode(false);
         mask.setValidCharacters("0123456789");
         mask.setPlaceholderCharacter('_');
+        mask.setMask("###.###.###-##");
         mask.install(textfield);       
        return mask; 
     }
@@ -52,9 +61,9 @@ public class MaskCampos {
             
         MaskFormatter mask = null;
         mask = new MaskFormatter("##.###.###/####-##");
-        mask.setOverwriteMode(true);
+        mask.setOverwriteMode(false);
         mask.setValidCharacters("0123456789");
-        mask.setPlaceholderCharacter('_');
+        //mask.setPlaceholderCharacter('_');
         mask.install(textfield);       
        return mask; 
     }
@@ -64,9 +73,9 @@ public class MaskCampos {
             
         MaskFormatter mask = null;
         mask = new MaskFormatter("#####-###");
-        mask.setOverwriteMode(true);
+        mask.setOverwriteMode(false);
         mask.setValidCharacters("0123456789");
-        mask.setPlaceholderCharacter('_');
+       // mask.setPlaceholderCharacter('_');
         mask.install(textfield);       
        return mask; 
     }

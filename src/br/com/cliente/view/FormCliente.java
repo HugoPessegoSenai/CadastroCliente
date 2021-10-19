@@ -5,17 +5,69 @@
  */
 package br.com.cliente.view;
 
+import br.com.cliente.bean.Cliente;
+import br.com.cliente.utils.MaskCampos;
+import java.text.ParseException;
+import javax.swing.JFormattedTextField;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+
 /**
  *
  * @author hugo.gomes
  */
-public class FormCliente extends javax.swing.JFrame  {
+public class FormCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form FormCliente
      */
     public FormCliente() {
         initComponents();
+        
+        //Chamando o metodo de mascaras
+        Mascaras();
+    }
+
+    public void Mascaras() {
+        // Inserir os campos de mascaras nos metodos da classe MaskCampos
+        MaskCampos mask = new MaskCampos();
+
+        try {
+            
+           //mask.maskGeral(txtCEP, "###-####");
+           //mask.maskGeral(txtCNPJ, "###-####");
+           //mask.maskGeral(txtCPF, "###-####");
+           //mask.maskGeral(txtCelular, "###-####");
+           //mask.maskGeral(txtTelefone, "###-####");
+           new JFormattedTextField(mask.maskCEP(txtCEP));
+           new JFormattedTextField(mask.maskCNPJ(txtCNPJ));
+           new JFormattedTextField(mask.maskCPF(txtCPF));
+           new JFormattedTextField(mask.maskCelular(txtCelular));
+           new JFormattedTextField(mask.maskTelefone(txtTelefone));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    public Cliente montaCliente(){
+        Cliente c = new Cliente();
+        
+        c.setNome(txtNomeEmpresa.getText());
+        c.setEndereco(txtEndereco.getText());
+        c.setCelular(txtCelular.getText());
+        c.setMunicipio(txtMunicipio.getText());
+        c.setCep(txtCEP.getText());
+        c.setTelefone(txtTelefone.getText());
+        c.setCpf(txtCPF.getText());
+        c.setCnpj(txtCNPJ.getText());
+        //c.setGenero(txtCelular.getText());
+        
+        if(txtId.getText() != null && !txtId.getText().equals("")){
+            c.setId(Integer.parseInt(txtId.getText()));
+        }
+        
+        return c;
     }
 
     /**
@@ -67,54 +119,79 @@ public class FormCliente extends javax.swing.JFrame  {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        contentPane.setBackground(new java.awt.Color(0, 51, 51));
         contentPane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de clientes");
         contentPane.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 290, 30));
 
+        lblID.setBackground(new java.awt.Color(255, 255, 255));
         lblID.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblID.setForeground(new java.awt.Color(255, 255, 255));
         lblID.setText("ID");
         contentPane.add(lblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
+        lblPesquisar.setBackground(new java.awt.Color(255, 255, 255));
         lblPesquisar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblPesquisar.setForeground(new java.awt.Color(255, 255, 255));
         lblPesquisar.setText("Pesquisar");
         contentPane.add(lblPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
 
+        lblEndereco.setBackground(new java.awt.Color(255, 255, 255));
         lblEndereco.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblEndereco.setForeground(new java.awt.Color(255, 255, 255));
         lblEndereco.setText("Endereço");
         contentPane.add(lblEndereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
 
+        lblMunicipio.setBackground(new java.awt.Color(255, 255, 255));
         lblMunicipio.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblMunicipio.setForeground(new java.awt.Color(255, 255, 255));
         lblMunicipio.setText("Município");
         contentPane.add(lblMunicipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
 
+        lblCEP.setBackground(new java.awt.Color(255, 255, 255));
         lblCEP.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblCEP.setForeground(new java.awt.Color(255, 255, 255));
         lblCEP.setText("CEP");
         contentPane.add(lblCEP, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, 10));
 
+        lblTelefone.setBackground(new java.awt.Color(255, 255, 255));
         lblTelefone.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblTelefone.setForeground(new java.awt.Color(255, 255, 255));
         lblTelefone.setText("Telefone");
         contentPane.add(lblTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, -1));
 
+        lblCelular.setBackground(new java.awt.Color(255, 255, 255));
         lblCelular.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblCelular.setForeground(new java.awt.Color(255, 255, 255));
         lblCelular.setText("Celular");
         contentPane.add(lblCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
 
+        lblCNPJ.setBackground(new java.awt.Color(255, 255, 255));
         lblCNPJ.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblCNPJ.setForeground(new java.awt.Color(255, 255, 255));
         lblCNPJ.setText("CNPJ");
         contentPane.add(lblCNPJ, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, -1));
 
+        lblGenero.setBackground(new java.awt.Color(255, 255, 255));
         lblGenero.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblGenero.setForeground(new java.awt.Color(255, 255, 255));
         lblGenero.setText("Gênero");
         contentPane.add(lblGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
 
+        lblCPF.setBackground(new java.awt.Color(255, 255, 255));
         lblCPF.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblCPF.setForeground(new java.awt.Color(255, 255, 255));
         lblCPF.setText("CPF");
         contentPane.add(lblCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, -1, -1));
 
+        lblNomeEmpresa.setBackground(new java.awt.Color(255, 255, 255));
         lblNomeEmpresa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lblNomeEmpresa.setForeground(new java.awt.Color(255, 255, 255));
         lblNomeEmpresa.setText("Nome/Empresa");
         contentPane.add(lblNomeEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
         contentPane.add(txtMunicipio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 250, -1));
@@ -129,14 +206,31 @@ public class FormCliente extends javax.swing.JFrame  {
         contentPane.add(txtNomeEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 250, -1));
 
         contentPane.add(cmbPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 280, -1));
+
+        try {
+            txtCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         contentPane.add(txtCEP, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 200, -1));
 
+        try {
+            txtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtTelefone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelefoneActionPerformed(evt);
             }
         });
         contentPane.add(txtTelefone, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 200, -1));
+
+        try {
+            txtCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         contentPane.add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 200, -1));
 
         bttExcluir.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttExcluir.png")); // NOI18N
@@ -155,11 +249,15 @@ public class FormCliente extends javax.swing.JFrame  {
         bttLimpar.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttLimpar.png")); // NOI18N
         contentPane.add(bttLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 390, -1, -1));
 
+        rbGeneroM.setBackground(new java.awt.Color(0, 51, 51));
         buttonGroup1.add(rbGeneroM);
+        rbGeneroM.setForeground(new java.awt.Color(255, 255, 255));
         rbGeneroM.setText("M");
         contentPane.add(rbGeneroM, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 360, -1, -1));
 
+        rbGeneroF.setBackground(new java.awt.Color(0, 51, 51));
         buttonGroup1.add(rbGeneroF);
+        rbGeneroF.setForeground(new java.awt.Color(255, 255, 255));
         rbGeneroF.setText("F");
         contentPane.add(rbGeneroF, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
         contentPane.add(txtCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 200, -1));
@@ -249,3 +347,4 @@ public class FormCliente extends javax.swing.JFrame  {
     private javax.swing.JFormattedTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 }
+
