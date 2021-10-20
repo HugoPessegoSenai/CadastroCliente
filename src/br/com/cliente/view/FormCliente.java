@@ -6,11 +6,11 @@
 package br.com.cliente.view;
 
 import br.com.cliente.bean.Cliente;
+import br.com.cliente.controle.ClienteCT;
 import br.com.cliente.utils.MaskCampos;
 import java.text.ParseException;
+import java.util.List;
 import javax.swing.JFormattedTextField;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -21,11 +21,17 @@ public class FormCliente extends javax.swing.JFrame {
     /**
      * Creates new form FormCliente
      */
+    private String genero;
+
     public FormCliente() {
         initComponents();
-        
+
         //Chamando o metodo de mascaras
         Mascaras();
+
+        rbGeneroM.setSelected(true);
+        
+        CarregarLista();
     }
 
     public void Mascaras() {
@@ -33,26 +39,26 @@ public class FormCliente extends javax.swing.JFrame {
         MaskCampos mask = new MaskCampos();
 
         try {
-            
-           //mask.maskGeral(txtCEP, "###-####");
-           //mask.maskGeral(txtCNPJ, "###-####");
-           //mask.maskGeral(txtCPF, "###-####");
-           //mask.maskGeral(txtCelular, "###-####");
-           //mask.maskGeral(txtTelefone, "###-####");
-           new JFormattedTextField(mask.maskCEP(txtCEP));
-           new JFormattedTextField(mask.maskCNPJ(txtCNPJ));
-           new JFormattedTextField(mask.maskCPF(txtCPF));
-           new JFormattedTextField(mask.maskCelular(txtCelular));
-           new JFormattedTextField(mask.maskTelefone(txtTelefone));
+
+            //mask.maskGeral(txtCEP, "###-####");
+            //mask.maskGeral(txtCNPJ, "###-####");
+            //mask.maskGeral(txtCPF, "###-####");
+            //mask.maskGeral(txtCelular, "###-####");
+            //mask.maskGeral(txtTelefone, "###-####");
+            new JFormattedTextField(mask.maskCEP(txtCEP));
+            new JFormattedTextField(mask.maskCNPJ(txtCNPJ));
+            new JFormattedTextField(mask.maskCPF(txtCPF));
+            new JFormattedTextField(mask.maskCelular(txtCelular));
+            new JFormattedTextField(mask.maskTelefone(txtTelefone));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
     }
-    
-    public Cliente montaCliente(){
+
+    public Cliente montaCliente() {
         Cliente c = new Cliente();
-        
+
         c.setNome(txtNomeEmpresa.getText());
         c.setEndereco(txtEndereco.getText());
         c.setCelular(txtCelular.getText());
@@ -61,15 +67,79 @@ public class FormCliente extends javax.swing.JFrame {
         c.setTelefone(txtTelefone.getText());
         c.setCpf(txtCPF.getText());
         c.setCnpj(txtCNPJ.getText());
-        //c.setGenero(txtCelular.getText());
-        
-        if(txtId.getText() != null && !txtId.getText().equals("")){
+        c.setGenero(genero);
+
+        if (txtId.getText() != null && !txtId.getText().equals("")) {
             c.setId(Integer.parseInt(txtId.getText()));
         }
-        
+
         return c;
     }
 
+    public void limparTela() {
+        txtId.setText("");
+        txtCEP.setText("");
+        txtCNPJ.setText("");
+        txtCPF.setText("");
+        txtCelular.setText("");
+        txtEndereco.setText("");
+        txtId.setText("");
+        txtMunicipio.setText("");
+        txtNomeEmpresa.setText("");
+        txtTelefone.setText("");
+        cmbPesquisar.setSelectedIndex(0);
+
+        rbGeneroM.setSelected(true);
+
+    }
+
+    public void ClienteSelecionado(Cliente c) {
+        //Prencher o formulario de cliente selecionado no combobox, ao
+        //clicar no botão pesquisar;
+
+        txtNomeEmpresa.setText(c.getNome());
+        txtEndereco.setText(c.getEndereco());
+        txtCEP.setText(c.getEndereco());
+        txtCNPJ.setText(c.getEndereco());
+        txtCPF.setText(c.getEndereco());
+        txtCelular.setText(c.getEndereco());
+        txtMunicipio.setText(c.getEndereco());
+        txtTelefone.setText(c.getEndereco());
+
+        if (c.getGenero().equals("F")) {
+            rbGeneroF.setSelected(true);
+            rbGeneroM.setSelected(false);
+        } else if (c.getGenero().equals("M")) {
+            rbGeneroM.setSelected(true);
+            rbGeneroF.setSelected(false);
+        }
+        
+        if(c.getId() != null && c.getId() >0){
+            txtId.setText(c.getId().toString());
+        }
+
+    }
+
+    public void CarregarLista(){
+        //Instaciando o objeto ClienCT  
+        ClienteCT mbc = new ClienteCT();
+    
+        //Adicionando os valores do banco de dados na minha lista Cliente
+        List<Cliente> ClienteDB = mbc.select();
+        
+        //Remover todos os itens
+        cmbPesquisar.removeAllItems();
+        
+        for (Cliente cliente : ClienteDB) {
+            cmbPesquisar.addItem(cliente.getNome());
+        }
+        
+        //for (int i = 0; i < ClienteDB.size(); i++) {
+        //    Cliente cliente = ClienteDB.get(i);
+        //    cmbPesquisar.addItem(cliente.getNome());
+        //}
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -247,18 +317,33 @@ public class FormCliente extends javax.swing.JFrame {
         contentPane.add(bttGravar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 390, -1, -1));
 
         bttLimpar.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttLimpar.png")); // NOI18N
+        bttLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttLimparActionPerformed(evt);
+            }
+        });
         contentPane.add(bttLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 390, -1, -1));
 
         rbGeneroM.setBackground(new java.awt.Color(0, 51, 51));
         buttonGroup1.add(rbGeneroM);
         rbGeneroM.setForeground(new java.awt.Color(255, 255, 255));
         rbGeneroM.setText("M");
+        rbGeneroM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbGeneroMActionPerformed(evt);
+            }
+        });
         contentPane.add(rbGeneroM, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 360, -1, -1));
 
         rbGeneroF.setBackground(new java.awt.Color(0, 51, 51));
         buttonGroup1.add(rbGeneroF);
         rbGeneroF.setForeground(new java.awt.Color(255, 255, 255));
         rbGeneroF.setText("F");
+        rbGeneroF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbGeneroFActionPerformed(evt);
+            }
+        });
         contentPane.add(rbGeneroF, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
         contentPane.add(txtCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 200, -1));
 
@@ -274,6 +359,18 @@ public class FormCliente extends javax.swing.JFrame {
     private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefoneActionPerformed
+
+    private void bttLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttLimparActionPerformed
+        limparTela();
+    }//GEN-LAST:event_bttLimparActionPerformed
+
+    private void rbGeneroFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbGeneroFActionPerformed
+        genero = "F";
+    }//GEN-LAST:event_rbGeneroFActionPerformed
+
+    private void rbGeneroMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbGeneroMActionPerformed
+        genero = "M";
+    }//GEN-LAST:event_rbGeneroMActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,4 +444,3 @@ public class FormCliente extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 }
-
