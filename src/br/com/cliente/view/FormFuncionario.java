@@ -6,7 +6,9 @@
 package br.com.cliente.view;
 
 import br.com.cliente.bean.Cliente;
+import br.com.cliente.bean.Funcionario;
 import br.com.cliente.controle.ClienteCT;
+import br.com.cliente.controle.FuncionarioCT;
 import br.com.cliente.utils.MaskCampos;
 import java.text.ParseException;
 import java.util.List;
@@ -17,14 +19,14 @@ import javax.swing.JOptionPane;
  *
  * @author hugo.gomes
  */
-public class FormCliente extends javax.swing.JFrame {
+public class FormFuncionario extends javax.swing.JFrame {
 
     /**
      * Creates new form FormCliente
      */
     private String genero = "M";
 
-    public FormCliente() {
+    public FormFuncionario() {
         initComponents();
 
         //Chamando o metodo de mascaras
@@ -41,24 +43,19 @@ public class FormCliente extends javax.swing.JFrame {
 
         try {
 
-            //mask.maskGeral(txtCEP, "###-####");
-            //mask.maskGeral(txtCNPJ, "###-####");
-            //mask.maskGeral(txtCPF, "###-####");
-            //mask.maskGeral(txtCelular, "###-####");
-            //mask.maskGeral(txtTelefone, "###-####");
-            new JFormattedTextField(mask.maskCEP(txtCEP));
-            new JFormattedTextField(mask.maskCNPJ(txtCNPJ));
-            new JFormattedTextField(mask.maskCPF(txtCPF));
-            new JFormattedTextField(mask.maskCelular(txtCelular));
-            new JFormattedTextField(mask.maskTelefone(txtTelefone));
+            mask.maskGeral(txtCEP, "###-####");
+            mask.maskGeral(txtCPF, "###.###.###-##");
+            mask.maskGeral(txtCelular, "(##) ####-####");
+            mask.maskGeral(txtTelefone, "(##) ####-####");
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
     }
 
-    public Cliente montaCliente() {
-        Cliente c = new Cliente();
+    public Funcionario montaFuncionario() {
+        Funcionario c = new Funcionario();
 
         c.setNome(txtNomeEmpresa.getText());
         c.setEndereco(txtEndereco.getText());
@@ -67,7 +64,7 @@ public class FormCliente extends javax.swing.JFrame {
         c.setCep(txtCEP.getText());
         c.setTelefone(txtTelefone.getText());
         c.setCpf(txtCPF.getText());
-        c.setCnpj(txtCNPJ.getText());
+        c.setFuncao(txtFUNCAO.getText());
         c.setGenero(genero);
 
         if (txtId.getText() != null && !txtId.getText().equals("")) {
@@ -80,13 +77,13 @@ public class FormCliente extends javax.swing.JFrame {
     public void limparTela() {
         txtId.setText("");
         txtCEP.setText("");
-        txtCNPJ.setText("");
+        txtNomeEmpresa.setText("");
         txtCPF.setText("");
         txtCelular.setText("");
         txtEndereco.setText("");
         txtId.setText("");
         txtMunicipio.setText("");
-        txtNomeEmpresa.setText("");
+        txtFUNCAO.setText("");
         txtTelefone.setText("");
         cmbPesquisar.setSelectedIndex(0);
 
@@ -94,14 +91,14 @@ public class FormCliente extends javax.swing.JFrame {
 
     }
 
-    public void ClienteSelecionado(Cliente c) {
+    public void FuncionarioSelecionado(Funcionario c) {
         //Prencher o formulario de cliente selecionado no combobox, ao
         //clicar no botão pesquisar;
 
         txtNomeEmpresa.setText(c.getNome());
         txtEndereco.setText(c.getEndereco());
         txtCEP.setText(c.getCep());
-        txtCNPJ.setText(c.getCnpj());
+        txtFUNCAO.setText(c.getFuncao());
         txtCPF.setText(c.getCpf());
         txtCelular.setText(c.getCelular());
         txtMunicipio.setText(c.getMunicipio());
@@ -123,16 +120,16 @@ public class FormCliente extends javax.swing.JFrame {
 
     public void CarregarLista(){
         //Instaciando o objeto ClienCT  
-        ClienteCT mbc = new ClienteCT();
+        FuncionarioCT mbc = new FuncionarioCT();
     
         //Adicionando os valores do banco de dados na minha lista Cliente
-        List<Cliente> ClienteDB = mbc.select();
+        List<Funcionario> FuncionarioDB = mbc.select();
         
         //Remover todos os itens
         cmbPesquisar.removeAllItems();
         
-        for (Cliente cliente : ClienteDB) {
-            cmbPesquisar.addItem(cliente.getNome());
+        for (Funcionario func : FuncionarioDB) {
+            cmbPesquisar.addItem(func.getNome());
         }
         
         //for (int i = 0; i < ClienteDB.size(); i++) {
@@ -170,13 +167,12 @@ public class FormCliente extends javax.swing.JFrame {
         txtMunicipio = new javax.swing.JTextField();
         txtId = new javax.swing.JTextField();
         txtEndereco = new javax.swing.JTextField();
-        txtNomeEmpresa = new javax.swing.JTextField();
+        txtFUNCAO = new javax.swing.JTextField();
         cmbPesquisar = new javax.swing.JComboBox<>();
         txtCEP = new javax.swing.JFormattedTextField();
         txtTelefone = new javax.swing.JFormattedTextField();
         txtCelular = new javax.swing.JFormattedTextField();
         bttExcluir = new javax.swing.JButton();
-        txtCNPJ = new javax.swing.JFormattedTextField();
         bttPesquisar = new javax.swing.JButton();
         bttEditar = new javax.swing.JButton();
         bttGravar = new javax.swing.JButton();
@@ -184,9 +180,9 @@ public class FormCliente extends javax.swing.JFrame {
         rbGeneroM = new javax.swing.JRadioButton();
         rbGeneroF = new javax.swing.JRadioButton();
         txtCPF = new javax.swing.JFormattedTextField();
+        txtNomeEmpresa = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(480, 420));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -197,7 +193,7 @@ public class FormCliente extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastro de clientes");
+        jLabel1.setText("Cadastro de funcionario");
         contentPane.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 290, 30));
 
         lblID.setBackground(new java.awt.Color(255, 255, 255));
@@ -245,7 +241,7 @@ public class FormCliente extends javax.swing.JFrame {
         lblCNPJ.setBackground(new java.awt.Color(255, 255, 255));
         lblCNPJ.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblCNPJ.setForeground(new java.awt.Color(255, 255, 255));
-        lblCNPJ.setText("CNPJ");
+        lblCNPJ.setText("FUNÇÃO");
         contentPane.add(lblCNPJ, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, -1));
 
         lblGenero.setBackground(new java.awt.Color(255, 255, 255));
@@ -269,12 +265,12 @@ public class FormCliente extends javax.swing.JFrame {
         contentPane.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 60, -1));
         contentPane.add(txtEndereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 250, -1));
 
-        txtNomeEmpresa.addActionListener(new java.awt.event.ActionListener() {
+        txtFUNCAO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeEmpresaActionPerformed(evt);
+                txtFUNCAOActionPerformed(evt);
             }
         });
-        contentPane.add(txtNomeEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 250, -1));
+        contentPane.add(txtFUNCAO, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, 200, -1));
 
         contentPane.add(cmbPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 280, -1));
 
@@ -311,7 +307,6 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
         contentPane.add(bttExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, -1));
-        contentPane.add(txtCNPJ, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, 200, -1));
 
         bttPesquisar.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttPesquisar.png")); // NOI18N
         bttPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -368,14 +363,21 @@ public class FormCliente extends javax.swing.JFrame {
         contentPane.add(rbGeneroF, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
         contentPane.add(txtCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 200, -1));
 
+        txtNomeEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeEmpresaActionPerformed(evt);
+            }
+        });
+        contentPane.add(txtNomeEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 250, -1));
+
         getContentPane().add(contentPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNomeEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeEmpresaActionPerformed
+    private void txtFUNCAOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFUNCAOActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeEmpresaActionPerformed
+    }//GEN-LAST:event_txtFUNCAOActionPerformed
 
     private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
         // TODO add your handling code here:
@@ -394,16 +396,16 @@ public class FormCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_rbGeneroMActionPerformed
 
     private void bttGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttGravarActionPerformed
-     Cliente c = montaCliente();
+     Funcionario c = montaFuncionario();
      
-     ClienteCT cbc = new ClienteCT();
+     FuncionarioCT cbc = new FuncionarioCT();
      
      cbc.insert(c);
      
      
      CarregarLista();
      
-     JOptionPane.showMessageDialog(null, "Cliente " 
+     JOptionPane.showMessageDialog(null, "Funcionario " 
              + txtNomeEmpresa.getText() + " cadastrado com sucesso...");
           
      limparTela();         
@@ -414,12 +416,12 @@ public class FormCliente extends javax.swing.JFrame {
       if(cmbPesquisar.getSelectedItem() != null 
               && !cmbPesquisar.getSelectedItem().equals("")){
           
-          ClienteCT ct = new ClienteCT();
-          Cliente c =  ct.selectandname(cmbPesquisar.getSelectedItem().toString());         
-          ClienteSelecionado(c);
+          FuncionarioCT ct = new FuncionarioCT();
+          Funcionario c =  ct.selectandname(cmbPesquisar.getSelectedItem().toString());         
+          FuncionarioSelecionado(c);
       }else{
              JOptionPane.showMessageDialog(null, "Escolha um " 
-             + "cliente na lista para pesquisar!");
+             + "funcionário na lista para pesquisar!");
       }
         
     }//GEN-LAST:event_bttPesquisarActionPerformed
@@ -430,7 +432,7 @@ public class FormCliente extends javax.swing.JFrame {
         int conf = JOptionPane.showOptionDialog(
                         null, 
                         "CONFIRMAR EXCLUSÃO?", // Texto
-                        "CADASTRO DE CLIENTE",  // TITULO
+                        "CADASTRO DE FUNCIONARIO",  // TITULO
                         JOptionPane.OK_CANCEL_OPTION, 
                         JOptionPane.QUESTION_MESSAGE, 
                         null, 
@@ -438,9 +440,9 @@ public class FormCliente extends javax.swing.JFrame {
         
         if(conf == JOptionPane.YES_OPTION){
             
-            Cliente c = montaCliente();
+            Funcionario c = montaFuncionario();
             
-            ClienteCT cbc = new ClienteCT();
+            FuncionarioCT cbc = new FuncionarioCT();
             
             cbc.delete(c);
             
@@ -461,7 +463,7 @@ public class FormCliente extends javax.swing.JFrame {
         int conf = JOptionPane.showOptionDialog(
                         null, //Formulario
                         "CONFIRMAR ATUALIZAÇÃO?", // Texto
-                        "CADASTRO DE CLIENTE",  // TITULO
+                        "CADASTRO DE FUNCIONARIO",  // TITULO
                         JOptionPane.OK_CANCEL_OPTION, //
                         JOptionPane.QUESTION_MESSAGE, 
                         null, 
@@ -470,9 +472,9 @@ public class FormCliente extends javax.swing.JFrame {
         
         if(conf == JOptionPane.YES_OPTION){
             
-            Cliente c = montaCliente();
+            Funcionario c = montaFuncionario();
             
-            ClienteCT cbc = new ClienteCT();
+            FuncionarioCT cbc = new FuncionarioCT();
             
             cbc.update(c);
             
@@ -481,6 +483,10 @@ public class FormCliente extends javax.swing.JFrame {
             CarregarLista();
         }
     }//GEN-LAST:event_bttEditarActionPerformed
+
+    private void txtNomeEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeEmpresaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeEmpresaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -499,20 +505,21 @@ public class FormCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormCliente().setVisible(true);
+                new FormFuncionario().setVisible(true);
             }
         });
     }
@@ -544,10 +551,10 @@ public class FormCliente extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbGeneroF;
     private javax.swing.JRadioButton rbGeneroM;
     private javax.swing.JFormattedTextField txtCEP;
-    private javax.swing.JFormattedTextField txtCNPJ;
     private javax.swing.JFormattedTextField txtCPF;
     private javax.swing.JFormattedTextField txtCelular;
     private javax.swing.JTextField txtEndereco;
+    private javax.swing.JTextField txtFUNCAO;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMunicipio;
     private javax.swing.JTextField txtNomeEmpresa;
