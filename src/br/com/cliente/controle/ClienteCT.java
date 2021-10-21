@@ -42,5 +42,12 @@ public class ClienteCT {
         List c = dao.select();
         return c;
     }
+    
+    public Cliente selectandname(String i) {
+        ClienteDao dao = new ClienteDao();
+        Cliente c = (Cliente) dao.selectandName(i);
+
+        return c;
+    }
 
 }

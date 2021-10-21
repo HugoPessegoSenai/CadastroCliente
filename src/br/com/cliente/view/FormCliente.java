@@ -11,6 +11,7 @@ import br.com.cliente.utils.MaskCampos;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -304,16 +305,36 @@ public class FormCliente extends javax.swing.JFrame {
         contentPane.add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 200, -1));
 
         bttExcluir.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttExcluir.png")); // NOI18N
+        bttExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttExcluirActionPerformed(evt);
+            }
+        });
         contentPane.add(bttExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, -1));
         contentPane.add(txtCNPJ, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, 200, -1));
 
         bttPesquisar.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttPesquisar.png")); // NOI18N
+        bttPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttPesquisarActionPerformed(evt);
+            }
+        });
         contentPane.add(bttPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 60, -1, -1));
 
         bttEditar.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttEditar.png")); // NOI18N
+        bttEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttEditarActionPerformed(evt);
+            }
+        });
         contentPane.add(bttEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, -1, -1));
 
         bttGravar.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttGravar.png")); // NOI18N
+        bttGravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttGravarActionPerformed(evt);
+            }
+        });
         contentPane.add(bttGravar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 390, -1, -1));
 
         bttLimpar.setIcon(new javax.swing.ImageIcon("D:\\Hugo Christian\\Aplicativos\\Icones\\bttLimpar.png")); // NOI18N
@@ -371,6 +392,90 @@ public class FormCliente extends javax.swing.JFrame {
     private void rbGeneroMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbGeneroMActionPerformed
         genero = "M";
     }//GEN-LAST:event_rbGeneroMActionPerformed
+
+    private void bttGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttGravarActionPerformed
+     Cliente c = montaCliente();
+     
+     ClienteCT cbc = new ClienteCT();
+     
+     cbc.insert(c);
+     
+     
+     CarregarLista();
+     
+     JOptionPane.showMessageDialog(null, "Cliente " 
+             + txtNomeEmpresa.getText() + " cadastrado com sucesso...");
+          
+     limparTela();         
+     
+    }//GEN-LAST:event_bttGravarActionPerformed
+
+    private void bttPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttPesquisarActionPerformed
+      if(cmbPesquisar.getSelectedItem() != null 
+              && !cmbPesquisar.getSelectedItem().equals("")){
+          
+          ClienteCT ct = new ClienteCT();
+          Cliente c =  ct.selectandname(cmbPesquisar.getSelectedItem().toString());         
+          ClienteSelecionado(c);
+      }else{
+             JOptionPane.showMessageDialog(null, "Escolha um " 
+             + "cliente na lista para pesquisar!");
+      }
+        
+    }//GEN-LAST:event_bttPesquisarActionPerformed
+
+    private void bttExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttExcluirActionPerformed
+        String[] options = {"Sim", "Não"};
+        
+        int conf = JOptionPane.showOptionDialog(null, 
+                        null, "CONFIRMAR EXCLUSÃO?", 
+                        JOptionPane.OK_CANCEL_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, 
+                        null, 
+                        options, options[1]);
+        
+        if(conf == JOptionPane.YES_OPTION){
+            
+            Cliente c = montaCliente();
+            
+            ClienteCT cbc = new ClienteCT();
+            
+            cbc.delete(c);
+            
+            limparTela();
+            
+            CarregarLista();
+            
+            
+        } 
+        
+        
+        
+    }//GEN-LAST:event_bttExcluirActionPerformed
+
+    private void bttEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttEditarActionPerformed
+               String[] options = {"Sim", "Não"};
+        
+        int conf = JOptionPane.showOptionDialog(null, 
+                        null, "CONFIRMAR ATUALIZAÇÃO?", 
+                        JOptionPane.OK_CANCEL_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, 
+                        null, 
+                        options, options[1]);
+        
+        if(conf == JOptionPane.YES_OPTION){
+            
+            Cliente c = montaCliente();
+            
+            ClienteCT cbc = new ClienteCT();
+            
+            cbc.update(c);
+            
+            limparTela();
+            
+            CarregarLista();
+        }
+    }//GEN-LAST:event_bttEditarActionPerformed
 
     /**
      * @param args the command line arguments

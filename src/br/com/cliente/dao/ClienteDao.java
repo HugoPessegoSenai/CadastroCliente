@@ -22,8 +22,8 @@ public class ClienteDao implements IDao{
                 
         // Criando uma variavel com nome sql e estou aplicando uma instrução sql
         // Comando para inserir no banco de dados, pegando os dados do formulario
-        String sql = "insert into cliente(nome, endereco, municipio, cep, tel, "
-                    + "cel, cpf, cnpj, genero) values (?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into cliente(nome, endereco, municipio, cep, telefone, "
+                    + "celular, cpf, cnpj, genero) values (?,?,?,?,?,?,?,?,?)";
         
         try {
              //Pegando os valores dos atributos do objeto Clinete e atribuir nos campos da tabela
@@ -57,7 +57,7 @@ public class ClienteDao implements IDao{
         
         // Criando uma variavel com nome sql e estou aplicando uma instrução sql
         // Comando para atualizar no banco de dados, pegando os dados do formulario
-        String sql = "update cliente set nome=?, endereco=?, municipio=?,cep=?, tel=?, cel=?, cpf=?,cnpj=?, genero=? where id = ?";
+        String sql = "update cliente set nome=?, endereco=?, municipio=?,cep=?, telefone=?, celular=?, cpf=?,cnpj=?, genero=? where id = ?";
         
         try {
              //Pegando os valores dos atributos do objeto Clinete e atribuir nos campos da tabela
@@ -123,8 +123,8 @@ public class ClienteDao implements IDao{
                 c.setEndereco(rs.getString("endereco"));
                 c.setMunicipio(rs.getString("municipio"));
                 c.setCep(rs.getString("cep"));
-                c.setTelefone(rs.getString("tel"));
-                c.setCelular(rs.getString("cel"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setCelular(rs.getString("celular"));
                 c.setCpf(rs.getString("cpf"));
                 c.setCnpj(rs.getString("cnpj"));
                 c.setGenero(rs.getString("genero"));
@@ -158,8 +158,8 @@ public class ClienteDao implements IDao{
                 c.setEndereco(rs.getString("endereco"));
                 c.setMunicipio(rs.getString("municipio"));
                 c.setCep(rs.getString("cep"));
-                c.setTelefone(rs.getString("tel"));
-                c.setCelular(rs.getString("cel"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setCelular(rs.getString("celular"));
                 c.setCpf(rs.getString("cpf"));
                 c.setCnpj(rs.getString("cnpj"));
                 c.setGenero(rs.getString("genero"));
@@ -176,5 +176,34 @@ public class ClienteDao implements IDao{
         
     }
 
-    
+    public Object selectandName(String nome) {
+       Cliente c = new Cliente();
+       
+       String sql = "select * from cliente where nome=?";
+       
+        try {
+            PreparedStatement ps = Conector.getConexao().prepareStatement(sql);
+            ps.setString(1,nome);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {                
+                c.setNome(rs.getString("nome"));
+                c.setEndereco(rs.getString("endereco"));
+                c.setMunicipio(rs.getString("municipio"));
+                c.setCep(rs.getString("cep"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setCelular(rs.getString("celular"));
+                c.setCpf(rs.getString("cpf"));
+                c.setCnpj(rs.getString("cnpj"));
+                c.setGenero(rs.getString("genero"));
+                c.setId(rs.getInt("id"));
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return c;
+    }
 }
